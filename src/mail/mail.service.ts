@@ -21,7 +21,7 @@ export class MailService {
 
     const mailOptions = {
       from: '"Contact Form" <yourgmail@gmail.com>', // sender address
-      to: 'abhipatel.dev@gmail.com',               // receiver address
+      to: 'missionhope07@gmail.com',               // receiver address
       subject: `New Contact Form Submission - ${subject}`,
       html: `
         <h3>New Contact Form Submission</h3>
