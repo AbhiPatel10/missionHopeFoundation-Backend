@@ -2,7 +2,7 @@
   "version": 2,
   "env": {
     "MONGO_URI": "mongodb+srv://missionhopefoundation:qvu7NMVa4WP08U4W@ngo.aicmy.mongodb.net/missionHopeFoundation?retryWrites=true&w=majority",
-    "EMAIL_USER": "tech.missionhopefoundation@gmail.com",
+    "EMAIL_USER": "abhipatel.dev@gmail.com",
     "EMAIL_PASS": "ojyq pljb dqpr mxec"
   },
   "builds": [
