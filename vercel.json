@@ -2,31 +2,20 @@
   "version": 2,
   "builds": [
     {
-      "src": "dist/main.js",
+      "src": "src/main.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/dist/main.js",
-      "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "http://localhost:3000" },
-        { "key": "Access-Control-Allow-Methods", "value": "GET, POST, PUT, DELETE, OPTIONS" },
-        { "key": "Access-Control-Allow-Headers", "value": "Content-Type, Authorization" },
-        { "key": "Access-Control-Allow-Credentials", "value": "true" }
+      "dest": "src/main.ts",
+      "methods": [
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE"
       ]
     }
-  ],
-  "env": {
-    "MONGO_URI": "mongodb+srv://missionhopefoundation:qvu7NMVa4WP08U4W@ngo.aicmy.mongodb.net/missionHopeFoundation?retryWrites=true&w=majority",
-    "EMAIL_USER": "abhipatel.dev@gmail.com",
-    "EMAIL_PASS": "ojyq pljb dqpr mxec"
-  }
+  ]
 }
