@@ -21,7 +21,7 @@ export class PhonepeService {
                 merchantUserId: body.MUID,
                 name: body.name,
                 amount: body.amount * 100,
-                redirectUrl: `http://localhost:5000/api/status/${merchantTransactionId}`,
+                redirectUrl: `http://localhost:5000/phonepe/status/${merchantTransactionId}`,
                 redirectMode: 'POST',
                 mobileNumber: body.number,
                 paymentInstrument: {
