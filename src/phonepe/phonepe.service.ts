@@ -28,7 +28,6 @@ export class PhonepeService {
                     type: 'PAY_PAGE'
                 }
             };
-            console.log("data", data);
 
             const payload = JSON.stringify(data);
             const payloadMain = Buffer.from(payload).toString('base64');

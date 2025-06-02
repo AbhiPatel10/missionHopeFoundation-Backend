@@ -12,7 +12,6 @@ export class PhonepeController {
     @Res() res: Response
   ) {
     const result = await this.phonepeService.createPaymentTransaction(body);
-    console.log("result", result);
 
     if (result.success) {
     
@@ -31,7 +30,6 @@ export class PhonepeController {
 
   @Get('status/:transactionId')
   getStatus(@Param('transactionId') transactionId: string) {
-    console.log("transactionId", transactionId);
     return this.phonepeService.checkPaymentStatus(transactionId);
   }
 }

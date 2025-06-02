@@ -7,13 +7,15 @@ import { ContactModule } from './contact/contact.module';
 import { DatabaseConnection } from './config/database.providers';
 import { MailService } from './mail/mail.service';
 import { PhonepeModule } from './phonepe/phonepe.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.MONGO_URI ?? ""),
     ContactModule,
-    PhonepeModule
+    PhonepeModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseConnection, MailService],
