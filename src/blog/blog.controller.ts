@@ -7,13 +7,16 @@ import {
   Body,
   Param,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import { CreateBlogDto } from './dto/create-blog.dto';
 import { UpdateBlogDto } from './dto/update-blog.dto';
 import { apiResponse } from 'src/utils/apiResponse';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('blogs')
+@UseGuards(JwtAuthGuard)
 export class BlogController {
   constructor(private readonly blogService: BlogService) { }
 
