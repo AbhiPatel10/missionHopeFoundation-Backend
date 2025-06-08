@@ -8,6 +8,8 @@ import { DatabaseConnection } from './config/database.providers';
 import { MailService } from './mail/mail.service';
 import { PhonepeModule } from './phonepe/phonepe.module';
 import { AdminModule } from './admin/admin.module';
+import { BlogModule } from './blog/blog.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { AdminModule } from './admin/admin.module';
     ContactModule,
     PhonepeModule,
     AdminModule,
+    BlogModule,
+    CategoryModule,
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseConnection, MailService],
