@@ -14,26 +14,36 @@ export class BlogService {
     @InjectModel(Blog.name) private readonly blogModel: Model<BlogDocument>,
   ) { }
 
-  async create(dto: CreateBlogDto): Promise<Blog> {
+  async create({ dto, authorId }: { dto: CreateBlogDto, authorId: number }): Promise<Blog> {
     const blog = new this.blogModel({
       ...dto,
+      author: authorId,
       hashtags: dto.hashtags?.map(h => h.toLowerCase().trim()),
     });
     return blog.save();
   }
 
-  async findAll(): Promise<Blog[]> {
-    return this.blogModel
-      .find({ isDelete: false })
-      .populate('author', 'name email') // populate admin basic info
-      .sort({ createdAt: -1 })
-      .exec();
+  async findAll({ limit, offset }: { limit: number, offset: number }): Promise<{ blogs: Blog[], total: number }> {
+    const [blogs, total] = await Promise.all([
+      this.blogModel
+        .find({ isDelete: false })
+        .limit(limit)
+        .skip(offset)
+        .populate('author', 'name email')
+        .populate('category', 'name')
+        .sort({ createdAt: -1 })
+        .exec(),
+      this.blogModel.countDocuments({ isDelete: false, isActive: true })
+    ]);
+
+    return { blogs, total };
   }
 
   async findOne(id: string): Promise<Blog> {
     const blog = await this.blogModel
       .findOne({ _id: id, isDelete: false })
-      .populate('author', 'name email');
+      .populate('author', 'name email')
+      .populate('category', 'name');
     if (!blog) throw new NotFoundException('Blog not found');
     return blog;
   }

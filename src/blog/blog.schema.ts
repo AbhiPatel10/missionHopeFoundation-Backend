@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document, Types } from 'mongoose';
 import { Admin } from 'src/admin/admin.schema';
+import { Category } from 'src/category/category.schema';
 
 export type BlogDocument = Blog & Document;
 
@@ -14,6 +15,9 @@ export class Blog {
 
   @Prop({ required: true })
   content: string;
+
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category', required: true })
+  category: Types.ObjectId | Category
 
   // 👇 reference to Admin collection (who created the blog)
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Admin', required: true })

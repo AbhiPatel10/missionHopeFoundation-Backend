@@ -18,10 +18,6 @@ export class CreateBlogDto {
   @IsNotEmpty()
   content: string;
 
-  @IsMongoId()
-  @IsNotEmpty()
-  author: string; // Admin _id reference
-
   @IsOptional()
   @IsUrl()
   mainImage?: string;

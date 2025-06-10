@@ -5,12 +5,14 @@ import { Admin, AdminDocument } from './admin.schema';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AdminService {
   constructor(
     @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) { }
 
   async createAdmin(email: string, password: string): Promise<Admin> {
@@ -38,9 +40,9 @@ export class AdminService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { email: admin.email, sub: admin._id, role: admin.role };
+    const payload = { email: admin.email, _id: admin._id, role: admin.role };
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign({ ...payload }, { secret: this.configService.get<string>('JWT_SECRET') }),
     };
   }
 }

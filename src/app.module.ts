@@ -10,6 +10,9 @@ import { PhonepeModule } from './phonepe/phonepe.module';
 import { AdminModule } from './admin/admin.module';
 import { BlogModule } from './blog/blog.module';
 import { CategoryModule } from './category/category.module';
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,8 +23,9 @@ import { CategoryModule } from './category/category.module';
     AdminModule,
     BlogModule,
     CategoryModule,
+    AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService, DatabaseConnection, MailService],
+  providers: [AppService, DatabaseConnection, MailService]
 })
 export class AppModule { }
