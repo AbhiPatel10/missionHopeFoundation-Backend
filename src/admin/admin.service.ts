@@ -1,4 +1,3 @@
-// src/admin/admin.service.ts
 import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Admin, AdminDocument } from './admin.schema';
@@ -6,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { ServiceResponse } from 'src/utils/types/commonTypes';
 
 @Injectable()
 export class AdminService {
@@ -15,7 +15,7 @@ export class AdminService {
     private configService: ConfigService,
   ) { }
 
-  async createAdmin(email: string, password: string): Promise<Admin> {
+  async createAdmin(email: string, password: string): Promise<ServiceResponse<Admin>> {
     const existingAdmin = await this.adminModel.findOne({ email });
     if (existingAdmin) {
       throw new ConflictException('Admin already exists');
@@ -23,26 +23,35 @@ export class AdminService {
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const admin = new this.adminModel({ email, password: hashedPassword });
-    return admin.save();
+    const savedAdmin = await admin.save();
+
+    return {
+      success: true,
+      message: 'Admin created successfully',
+      data: savedAdmin,
+    };
   }
 
   async findByEmail(email: string): Promise<AdminDocument | null> {
     return this.adminModel.findOne({ email }).exec();
   }
 
-  async getAllAdmins(): Promise<Admin[]> {
-    return this.adminModel.find().exec();
-  }
-
-  async login(email: string, password: string) {
+  async login(email: string, password: string): Promise<ServiceResponse<{ access_token: string }>> {
     const admin = await this.findByEmail(email);
     if (!admin || !(await bcrypt.compare(password, admin.password))) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
     const payload = { email: admin.email, _id: admin._id, role: admin.role };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get<string>('JWT_SECRET'),
+      expiresIn: '24h',
+    });
+
     return {
-      access_token: this.jwtService.sign({ ...payload }, { secret: this.configService.get<string>('JWT_SECRET') }),
+      success: true,
+      message: 'Login successful',
+      data: { access_token: token },
     };
   }
 }

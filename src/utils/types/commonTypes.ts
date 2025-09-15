@@ -7,3 +7,9 @@ export interface userRequest extends Request {
     role: string
   }
 }
+
+export interface ServiceResponse<T> {
+  success: boolean;
+  message: string;
+  data?: T;
+}
