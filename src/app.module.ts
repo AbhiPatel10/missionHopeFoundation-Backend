@@ -13,6 +13,7 @@ import { CategoryModule } from './category/category.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { VolunteerModule } from './volunteers/volunteers.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { APP_GUARD } from '@nestjs/core';
     AdminModule,
     BlogModule,
     CategoryModule,
-    AuthModule
+    AuthModule,
+    VolunteerModule
   ],
   controllers: [AppController],
   providers: [AppService, DatabaseConnection, MailService]

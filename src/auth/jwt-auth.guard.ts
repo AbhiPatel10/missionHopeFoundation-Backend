@@ -12,7 +12,7 @@ export class JwtAuthGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractToken(request);
-
+    console.log("token---", token)
     if (!token) {
       throw new UnauthorizedException('Missing or invalid token');
     }
@@ -20,9 +20,11 @@ export class JwtAuthGuard implements CanActivate {
     try {
       // Verify the token and attach the payload to the request
       const payload = this.jwtService.verify(token, { secret: this.configService.get<string>('JWT_SECRET') });
+      console.log("payload---", payload)
       request.user = payload;
       return true;
     } catch (error) {
+      console.log("error in jwt auth guard", error)
       throw new UnauthorizedException('Invalid or expired token');
     }
   }

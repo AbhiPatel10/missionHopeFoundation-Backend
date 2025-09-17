@@ -17,11 +17,12 @@ async function bootstrap() {
     .setTitle('My API')
     .setDescription('The API description')
     .setVersion('1.0')
+    .addBearerAuth()
     .addTag('api') // Optional: You can categorize routes
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api-docs', app, document); // URL will be http://localhost:8080/api-docs
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(process.env.PORT ?? 8080);
 }
